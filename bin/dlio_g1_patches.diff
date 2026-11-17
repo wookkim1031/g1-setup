@@ -1,0 +1,24 @@
+--- src/dlio/odom.cc.orig	2026-11-02 16:12:28.769046858 +0100
++++ src/dlio/odom.cc	2026-11-02 16:12:28.774046904 +0100
+@@ -34,13 +34,13 @@
+   this->lidar_cb_group = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+   auto lidar_sub_opt = rclcpp::SubscriptionOptions();
+   lidar_sub_opt.callback_group = this->lidar_cb_group;
+-  this->lidar_sub = this->create_subscription<sensor_msgs::msg::PointCloud2>("pointcloud", 1,
++  this->lidar_sub = this->create_subscription<sensor_msgs::msg::PointCloud2>("pointcloud", rclcpp::QoS(rclcpp::KeepLast(1000)).reliable(),
+       std::bind(&dlio::OdomNode::callbackPointCloud, this, std::placeholders::_1), lidar_sub_opt);
+ 
+   this->imu_cb_group = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
+   auto imu_sub_opt = rclcpp::SubscriptionOptions();
+   imu_sub_opt.callback_group = this->imu_cb_group;
+-  this->imu_sub = this->create_subscription<sensor_msgs::msg::Imu>("imu", rclcpp::SensorDataQoS(),
++  this->imu_sub = this->create_subscription<sensor_msgs::msg::Imu>("imu", rclcpp::QoS(rclcpp::KeepLast(10000)).reliable(),
+       std::bind(&dlio::OdomNode::callbackImu, this, std::placeholders::_1), imu_sub_opt);
+ 
+   this->odom_pub     = this->create_publisher<nav_msgs::msg::Odometry>("odom", 1);
+ CMakeLists.txt   | 10 ++++++----
+ cfg/dlio.yaml    |  2 +-
+ cfg/params.yaml  | 14 +++++++-------
+ package.xml      |  2 +-
+ src/dlio/odom.cc |  4 ++--
+ 5 files changed, 17 insertions(+), 15 deletions(-)

@@ -1,0 +1,22 @@
+# DLIO (direct_lidar_inertial_odometry, feature/ros2 branch, commit c8acc37) on ROS 2 Humble.
+# For running DLIO offline on any PC with Docker.
+#   docker build -t dlio-humble -f Dockerfile.dlio .
+#   docker run --rm -it -v $PWD:/data dlio-humble bash
+#   ROS_DOMAIN_ID=42 ROS_LOCALHOST_ONLY=1 /data/bin/dlio_run.sh <bag> <out> 1.0
+FROM ros:humble-ros-base
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    git build-essential cmake libpcl-dev libeigen3-dev libomp-dev \
+    ros-humble-pcl-conversions ros-humble-tf2-ros ros-humble-rosbag2 ros-humble-rosbag2-storage-default-plugins \
+    python3-pip python3-numpy python3-matplotlib && rm -rf /var/lib/apt/lists/* && pip3 install --no-cache-dir rosbags
+RUN mkdir -p /ros2_ws/src && cd /ros2_ws/src \
+    && git clone --depth 1 -b feature/ros2 https://github.com/vectr-ucla/direct_lidar_inertial_odometry \
+    && cd direct_lidar_inertial_odometry \
+    && sed -i 's/^find_package(nav_msgs REQUIRED)$/find_package(nav_msgs REQUIRED)\nfind_package(tf2_ros REQUIRED)\nfind_package(pcl_conversions REQUIRED)/' CMakeLists.txt \
+    && sed -i 's/^find_package(pcl_ros REQUIRED)$//; s/ "pcl_ros"//; s/ pcl_ros)/)/' CMakeLists.txt \
+    && sed -i 's#<depend>pcl_ros</depend>#<depend>pcl_conversions</depend><depend>tf2_ros</depend>#' package.xml
+# G1 / Mid-360 config (the edits used for the G1): IMU offset, indoor tuning, approximateGravity true, bufferSize 20000
+COPY cfg/dlio.yaml cfg/params.yaml /ros2_ws/src/direct_lidar_inertial_odometry/cfg/
+# lossless offline replay: deep reliable subscription queues (see dlio_g1_patches.diff)
+RUN cd /ros2_ws/src/direct_lidar_inertial_odometry && sed -i 's|create_subscription<sensor_msgs::msg::PointCloud2>("pointcloud", 1,|create_subscription<sensor_msgs::msg::PointCloud2>("pointcloud", rclcpp::QoS(rclcpp::KeepLast(1000)).reliable(),|; s|create_subscription<sensor_msgs::msg::Imu>("imu", rclcpp::SensorDataQoS(),|create_subscription<sensor_msgs::msg::Imu>("imu", rclcpp::QoS(rclcpp::KeepLast(10000)).reliable(),|' src/dlio/odom.cc
+RUN cd /ros2_ws && . /opt/ros/humble/setup.sh && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+RUN echo 'source /opt/ros/humble/setup.bash; source /ros2_ws/install/setup.bash' >> /root/.bashrc
