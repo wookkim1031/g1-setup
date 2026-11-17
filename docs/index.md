@@ -18,6 +18,12 @@ The pages describe setup and tools only. Experiment results are not part of them
 | [Digital twin](digital-twin.html) | From a LiDAR map to a scene in Isaac Lab and MuJoCo, and scanning one chair | Done, with limits listed on the page |
 | Voice | Wake word, speech-to-text, language model and text-to-speech | Planned |
 
+## Research
+
+| Page | What it covers |
+|---|---|
+| [How others do it](research.html) | Every improvement we found for robots that walk through buildings, in one table, with five topic pages: routes and waypoints, tight spaces, people, learned navigation, localisation and maps |
+
 All scripts are in the repository: [bin/](https://github.com/wookkim1031/g1-setup/tree/main/bin).
 
 ## Words used on every page
