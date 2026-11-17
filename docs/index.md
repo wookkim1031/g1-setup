@@ -20,9 +20,9 @@ The pages describe setup and tools only. Experiment results are not part of them
 
 ## Research
 
-| Page | What it covers |
-|---|---|
-| [How others do it](research.html) | Every improvement we found for robots that walk through buildings, in one table, with five topic pages: routes and waypoints, tight spaces, people, learned navigation, localisation and maps |
+[How robots find their way indoors](https://wookkim1031.github.io/robot-navigation-research/): what companies and
+researchers do for routes and waypoints, tight spaces, people, learned navigation and localisation, on one
+page with sources.
 
 All scripts are in the repository: [bin/](https://github.com/wookkim1031/g1-setup/tree/main/bin).
 
