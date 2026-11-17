@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#ffffff"/>
+
+  <!-- row 1: the hall -->
+  <text x="20" y="32" font-size="16" font-weight="bold" fill="#184f95">The hall</text>
+
+  <rect x="20" y="50" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="95" y="74" text-anchor="middle">LiDAR walk</text>
+  <text x="95" y="93" text-anchor="middle" font-size="12" fill="#555">clouds + IMU</text>
+
+  <rect x="200" y="50" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="275" y="74" text-anchor="middle">Map</text>
+  <text x="275" y="93" text-anchor="middle" font-size="12" fill="#555">8 million points</text>
+
+  <rect x="380" y="50" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="455" y="74" text-anchor="middle">Labelled map</text>
+  <text x="455" y="93" text-anchor="middle" font-size="12" fill="#555">chair, table, door ...</text>
+
+  <rect x="560" y="50" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="635" y="74" text-anchor="middle">Scene builder</text>
+  <text x="635" y="93" text-anchor="middle" font-size="12" fill="#555">10 cm columns + boxes</text>
+
+  <rect x="380" y="150" width="150" height="56" rx="6" fill="#fff" stroke="#555"/>
+  <text x="455" y="174" text-anchor="middle">Room video</text>
+  <text x="455" y="193" text-anchor="middle" font-size="12" fill="#555">objects found in frames</text>
+
+  <line x1="170" y1="78" x2="198" y2="78" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="350" y1="78" x2="378" y2="78" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="530" y1="78" x2="558" y2="78" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="455" y1="150" x2="455" y2="108" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- outputs -->
+  <rect x="740" y="20" width="140" height="50" rx="6" fill="#fdf1ea" stroke="#eb6834"/>
+  <text x="810" y="42" text-anchor="middle">Isaac Lab scene</text>
+  <text x="810" y="60" text-anchor="middle" font-size="12" fill="#555">USD file</text>
+
+  <rect x="740" y="100" width="140" height="50" rx="6" fill="#fdf1ea" stroke="#eb6834"/>
+  <text x="810" y="122" text-anchor="middle">MuJoCo scene</text>
+  <text x="810" y="140" text-anchor="middle" font-size="12" fill="#555">XML file</text>
+
+  <line x1="710" y1="68" x2="738" y2="50" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="810" y1="70" x2="810" y2="98" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- row 2: one object -->
+  <text x="20" y="262" font-size="16" font-weight="bold" fill="#184f95">One object (a chair)</text>
+
+  <rect x="20" y="280" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="95" y="304" text-anchor="middle">Camera orbit</text>
+  <text x="95" y="323" text-anchor="middle" font-size="12" fill="#555">depth + colour</text>
+
+  <rect x="200" y="280" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="275" y="304" text-anchor="middle">Fused points</text>
+  <text x="275" y="323" text-anchor="middle" font-size="12" fill="#555">blurred by pose error</text>
+
+  <rect x="380" y="280" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="455" y="304" text-anchor="middle">Mesh + fitted legs</text>
+  <text x="455" y="323" text-anchor="middle" font-size="12" fill="#555">from point density</text>
+
+  <rect x="560" y="280" width="150" height="56" rx="6" fill="#eef4fb" stroke="#2a78d6"/>
+  <text x="635" y="304" text-anchor="middle">Clean model</text>
+  <text x="635" y="323" text-anchor="middle" font-size="12" fill="#555">measured sizes</text>
+
+  <rect x="740" y="280" width="140" height="56" rx="6" fill="#fdf1ea" stroke="#eb6834"/>
+  <text x="810" y="304" text-anchor="middle">Collision pieces</text>
+  <text x="810" y="323" text-anchor="middle" font-size="12" fill="#555">for the simulators</text>
+
+  <line x1="170" y1="308" x2="198" y2="308" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="350" y1="308" x2="378" y2="308" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="530" y1="308" x2="558" y2="308" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="710" y1="308" x2="738" y2="308" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+</svg>

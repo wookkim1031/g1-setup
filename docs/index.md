@@ -14,7 +14,7 @@ The pages describe setup and tools only. Experiment results are not part of them
 |---|---|---|
 | [Navigation](navigation.html) | LiDAR, odometry and mapping with DLIO, localisation, Nav2, and the split between robot and server | Mapping done; localisation and Nav2 in progress |
 | Simulation | Isaac Lab, the whole-body tracker and how a check run works | Planned |
-| Digital twin | From a LiDAR walk to a simulation scene | Planned |
+| [Digital twin](digital-twin.html) | From a LiDAR map to a scene in Isaac Lab and MuJoCo, and scanning one chair | Done, with limits listed on the page |
 | Voice | Wake word, speech-to-text, language model and text-to-speech | Planned |
 
 All scripts are in the repository: [bin/](https://github.com/wookkim1031/g1-setup/tree/main/bin).

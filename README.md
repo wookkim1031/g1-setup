@@ -8,6 +8,7 @@ not used them before.
 | Page | Status |
 |---|---|
 | [Navigation](https://wookkim1031.github.io/g1-setup/navigation.html): LiDAR, DLIO mapping, localisation, Nav2 | Mapping done; the rest in progress |
+| [Digital twin](https://wookkim1031.github.io/g1-setup/digital-twin.html): from the map to Isaac Lab and MuJoCo scenes, scanning a chair | Done |
 
 - `docs/`: the pages (GitHub Pages, Jekyll).
 - `bin/`: the scripts the pages refer to. `bin/Dockerfile.dlio` builds
