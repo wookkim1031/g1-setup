@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <rect width="900" height="330" fill="#ffffff"/>
+
+  <!-- left: upright -->
+  <text x="225" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#184f95">As the maker intends it</text>
+  <line x1="30" y1="270" x2="420" y2="270" stroke="#c3c2b7" stroke-width="2"/>
+  <text x="400" y="290" text-anchor="end" font-size="12" fill="#555">floor</text>
+  <!-- wedge: from -7 (down) to +52 (up), origin (225,190), radius 190; drawn to the right and mirrored to the left -->
+  <path d="M225 190 L413.6 213.2 A190 190 0 0 0 342.0 40.3 Z" fill="#2a78d6" fill-opacity="0.18" stroke="#2a78d6"/>
+  <path d="M225 190 L36.4 213.2 A190 190 0 0 1 108.0 40.3 Z" fill="#2a78d6" fill-opacity="0.18" stroke="#2a78d6"/>
+  <line x1="60" y1="190" x2="390" y2="190" stroke="#898781" stroke-dasharray="4 4"/>
+  <rect x="207" y="176" width="36" height="28" rx="5" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="352" y="62" font-size="13" fill="#184f95">52° up</text>
+  <text x="352" y="232" font-size="13" fill="#184f95">7° down</text>
+  <text x="225" y="312" text-anchor="middle" font-size="13" fill="#555">sees walls and ceiling, little of the floor nearby</text>
+
+  <!-- right: upside down in the robot's head -->
+  <text x="675" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#9a3a12">Upside down in the robot's head</text>
+  <line x1="480" y1="270" x2="870" y2="270" stroke="#c3c2b7" stroke-width="2"/>
+  <text x="850" y="290" text-anchor="end" font-size="12" fill="#555">floor</text>
+  <!-- origin (675,90): wedge from +7 up to -52 down, clipped at the floor (y=270): 180 px below origin -->
+  <path d="M675 90 L863.6 66.8 L863.6 270 L815.6 270 Z" fill="#eb6834" fill-opacity="0.18" stroke="none"/>
+  <path d="M675 90 L486.4 66.8 L486.4 270 L534.4 270 Z" fill="#eb6834" fill-opacity="0.18" stroke="none"/>
+  <line x1="675" y1="90" x2="863.6" y2="66.8" stroke="#eb6834"/>
+  <line x1="675" y1="90" x2="815.6" y2="270" stroke="#eb6834"/>
+  <line x1="675" y1="90" x2="486.4" y2="66.8" stroke="#eb6834"/>
+  <line x1="675" y1="90" x2="534.4" y2="270" stroke="#eb6834"/>
+  <line x1="510" y1="90" x2="840" y2="90" stroke="#898781" stroke-dasharray="4 4"/>
+  <rect x="657" y="76" width="36" height="28" rx="5" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <line x1="675" y1="104" x2="675" y2="270" stroke="#333" stroke-width="1.5"/>
+  <text x="683" y="190" font-size="12" fill="#333">1.28 m</text>
+  <text x="800" y="56" font-size="13" fill="#9a3a12">7° up</text>
+  <text x="822" y="262" font-size="13" fill="#9a3a12">52° down</text>
+  <line x1="675" y1="278" x2="815.6" y2="278" stroke="#333"/>
+  <text x="745" y="296" text-anchor="middle" font-size="12" fill="#333">about 1 m</text>
+  <text x="675" y="318" text-anchor="middle" font-size="13" fill="#555">sees the floor from 1 m outward, almost nothing above head height</text>
+</svg>

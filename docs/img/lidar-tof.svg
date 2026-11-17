@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 250" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2a78d6"/>
+    </marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#eb6834"/>
+    </marker>
+  </defs>
+  <rect width="900" height="250" fill="#ffffff"/>
+
+  <rect x="40" y="80" width="110" height="80" rx="8" fill="#eef4fb" stroke="#2a78d6" stroke-width="1.5"/>
+  <text x="95" y="116" text-anchor="middle" font-weight="bold">LiDAR</text>
+  <text x="95" y="136" text-anchor="middle" font-size="12" fill="#555">laser + clock</text>
+
+  <rect x="760" y="30" width="26" height="180" fill="#c3c2b7"/>
+  <text x="773" y="232" text-anchor="middle" font-size="13" fill="#555">wall</text>
+
+  <line x1="152" y1="105" x2="756" y2="105" stroke="#2a78d6" stroke-width="2" marker-end="url(#a)"/>
+  <text x="455" y="95" text-anchor="middle" fill="#184f95">1. a short pulse of light goes out</text>
+  <line x1="756" y1="135" x2="154" y2="135" stroke="#eb6834" stroke-width="2" stroke-dasharray="7 4" marker-end="url(#b)"/>
+  <text x="455" y="157" text-anchor="middle" fill="#9a3a12">2. a little of it comes back</text>
+
+  <line x1="152" y1="185" x2="756" y2="185" stroke="#333" stroke-width="1"/>
+  <line x1="152" y1="178" x2="152" y2="192" stroke="#333"/>
+  <line x1="756" y1="178" x2="756" y2="192" stroke="#333"/>
+  <text x="455" y="208" text-anchor="middle">distance = speed of light × time ÷ 2</text>
+  <text x="455" y="228" text-anchor="middle" font-size="12" fill="#555">a wall 10 m away answers after 67 billionths of a second</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="900" height="300" fill="#ffffff"/>
+
+  <!-- left: odometry only -->
+  <text x="225" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#184f95">Odometry only</text>
+  <rect x="60" y="60" width="320" height="170" rx="4" fill="none" stroke="#c3c2b7" stroke-width="2"/>
+  <path d="M90 200 L350 200 L350 90 L90 90 L90 200" fill="none" stroke="#333" stroke-width="2"/>
+  <path d="M90 200 L352 203 L358 96 L103 84 L108 188" fill="none" stroke="#2a78d6" stroke-width="2" stroke-dasharray="7 4"/>
+  <circle cx="90" cy="200" r="6" fill="#333"/>
+  <circle cx="108" cy="188" r="6" fill="#2a78d6"/>
+  <text x="76" y="222" font-size="12" fill="#333">start = real end</text>
+  <text x="118" y="180" font-size="12" fill="#184f95">where odometry thinks it is</text>
+  <text x="225" y="258" text-anchor="middle" font-size="13" fill="#555">smooth, but small errors pile up: drift</text>
+
+  <!-- right: with localisation -->
+  <text x="675" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#9a3a12">With localisation on a map</text>
+  <rect x="510" y="60" width="320" height="170" rx="4" fill="none" stroke="#c3c2b7" stroke-width="2"/>
+  <path d="M540 200 L800 200 L800 90 L540 90 L540 200" fill="none" stroke="#333" stroke-width="2"/>
+  <path d="M540 200 L672 201.5" fill="none" stroke="#eb6834" stroke-width="2" stroke-dasharray="7 4"/>
+  <path d="M670 200 L802 201.5 L803 150" fill="none" stroke="#eb6834" stroke-width="2" stroke-dasharray="7 4"/>
+  <path d="M800 148 L803 92 L672 88" fill="none" stroke="#eb6834" stroke-width="2" stroke-dasharray="7 4"/>
+  <path d="M670 90 L543 86 L544 196" fill="none" stroke="#eb6834" stroke-width="2" stroke-dasharray="7 4"/>
+  <circle cx="540" cy="200" r="6" fill="#333"/>
+  <circle cx="544" cy="196" r="5" fill="#eb6834"/>
+  <text x="675" y="258" text-anchor="middle" font-size="13" fill="#555">the map pulls the estimate back, in small jumps</text>
+
+  <line x1="60" y1="284" x2="100" y2="284" stroke="#333" stroke-width="2"/>
+  <text x="108" y="289" font-size="13">real path</text>
+  <line x1="200" y1="284" x2="240" y2="284" stroke="#2a78d6" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="248" y="289" font-size="13">estimated path</text>
+</svg>

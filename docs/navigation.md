@@ -16,6 +16,8 @@ Last updated: 17 November 2026.
 
 Everything in steps 1 to 3 only **listens** to the robot. No script on this page sends it a command yet.
 
+New to LiDAR, odometry or TF? Read the [basics page](basics.html) first.
+
 Scripts: [bin/](https://github.com/wookkim1031/g1-setup/tree/main/bin).
 
 ---

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 330" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="900" height="330" fill="#ffffff"/>
+
+  <rect x="40" y="40" width="150" height="60" rx="8" fill="#fdf1ea" stroke="#eb6834" stroke-width="1.5"/>
+  <text x="115" y="66" text-anchor="middle" font-weight="bold">map</text>
+  <text x="115" y="86" text-anchor="middle" font-size="12" fill="#555">fixed to the hall</text>
+
+  <rect x="300" y="40" width="150" height="60" rx="8" fill="#eef4fb" stroke="#2a78d6" stroke-width="1.5"/>
+  <text x="375" y="66" text-anchor="middle" font-weight="bold">odom</text>
+  <text x="375" y="86" text-anchor="middle" font-size="12" fill="#555">where the robot started</text>
+
+  <rect x="560" y="40" width="150" height="60" rx="8" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="635" y="66" text-anchor="middle" font-weight="bold">base_link</text>
+  <text x="635" y="86" text-anchor="middle" font-size="12" fill="#555">the robot's body</text>
+
+  <rect x="430" y="210" width="170" height="60" rx="8" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="515" y="236" text-anchor="middle" font-weight="bold">LiDAR frame</text>
+  <text x="515" y="256" text-anchor="middle" font-size="12" fill="#555">upside down, in the head</text>
+
+  <rect x="680" y="210" width="170" height="60" rx="8" fill="#fff" stroke="#333" stroke-width="1.5"/>
+  <text x="765" y="236" text-anchor="middle" font-weight="bold">camera frame</text>
+  <text x="765" y="256" text-anchor="middle" font-size="12" fill="#555">head camera</text>
+
+  <line x1="190" y1="70" x2="298" y2="70" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="450" y1="70" x2="558" y2="70" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="610" y1="100" x2="535" y2="208" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="660" y1="100" x2="745" y2="208" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <text x="245" y="126" text-anchor="middle" font-size="13" fill="#9a3a12">from the localiser</text>
+  <text x="245" y="144" text-anchor="middle" font-size="12" fill="#555">slow correction, may jump</text>
+  <text x="505" y="126" text-anchor="middle" font-size="13" fill="#184f95">from odometry</text>
+  <text x="505" y="144" text-anchor="middle" font-size="12" fill="#555">smooth, drifts slowly</text>
+  <text x="722" y="140" font-size="13" fill="#333">fixed: how the</text>
+  <text x="734" y="158" font-size="13" fill="#333">sensors are mounted</text>
+
+  <text x="40" y="306" font-size="13" fill="#555">Each arrow is one transform: "where is the child, seen from the parent". Every frame has exactly one parent.</text>
+</svg>
