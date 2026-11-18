@@ -203,8 +203,8 @@ does not have that.** Measured from a recorded walk of the real robot:
   yet. Either way, a flat scan made from this cloud is empty straight ahead.
 * **What that did in simulation:** obstacle avoidance fed with this scan still avoided furniture, which it
   sees from the side before the robot turns towards it. It walked into people who stood straight ahead,
-  in each of three runs. A scan with such a gap needs a second sensor for the front, for example the
-  depth camera in the head.
+  in each of three runs. A scan with such a gap needs a second sensor for the front. How the depth camera
+  in the head is added is on its own page: [A depth camera for the front](front-camera.html).
 
 ![LiDAR points per scan by direction around the robot: none within 55° of straight ahead](img/lidar-directions.png)
 
@@ -275,7 +275,7 @@ stronger candidate and the next thing to try with real data.
 | Position is fine but the robot still touches things | The outline leaves less room than the localiser's error | Add at least the worst error as margin |
 | AMCL never updates | The scan's topic name or frame does not match what AMCL expects | Check `scan_topic`, and that the scan's frame exists in TF |
 | The robot believes it reached a goal it did not reach | Goals are judged by the estimated position | When testing in simulation, check against the true position as well |
-| The robot walks into something straight ahead | The scan has no readings in that direction, so neither Nav2 nor a stop zone can see it | Check what your scan really covers all around; add a forward camera to obstacle avoidance |
+| The robot walks into something straight ahead | The scan has no readings in that direction, so neither Nav2 nor a stop zone can see it | Check what your scan really covers all around; add a [forward camera](front-camera.html) to obstacle avoidance |
 | Works in one room, not in a long plain corridor | Along a plain wall every place looks the same to the scan | Keep corners or columns in view; this is a limit of the method |
 
 ---

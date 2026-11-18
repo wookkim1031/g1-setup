@@ -244,6 +244,9 @@ commands toward a goal. Things that are different for a walking humanoid and nee
 * The robot sways while walking, so the position jitters by a few centimetres.
 * It cannot turn on the spot as cleanly as a wheeled robot, and it needs room to stop.
 * Speeds are low (well under 1 m/s), so the controller's limits have to be set for that.
+* The head LiDAR's recording has no points straight ahead, so the live scan alone does not show what is in
+  front of the robot. Adding the head's depth camera as a second sensor is tried in simulation on its own
+  page: [A depth camera for the front](front-camera.html).
 
 ## 7. Velocity bridge, watchdog and obstacle stop (planned)
 
