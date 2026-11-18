@@ -230,6 +230,12 @@ with several people at two distances is planned, not done.
 
 ---
 
+## An idea for later: where is the visitor from?
+
+A public pronunciation atlas shows which words are said differently in which regions. Which of its
+maps are clean enough to guess a region from a few words is collected on the [accents page](accents.html).
+Nothing of it is built.
+
 ## What is not measured, and what does not work yet
 
 * **How well it understands through the robot's own microphone.** The error rates above are from clean

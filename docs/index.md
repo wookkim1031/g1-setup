@@ -19,6 +19,7 @@ The pages describe setup and tools only. Experiment results are not part of them
 | [Simulation](simulation.html) | Isaac Lab on a GPU server: the control loop, a check run from start to finish, timing, sharing one graphics card, and MuJoCo as a second opinion | Done |
 | [Digital twin](digital-twin.html) | From a LiDAR map to a scene in Isaac Lab and MuJoCo, and scanning one chair | Done, with limits listed on the page |
 | [Voice](voice.html) | A spoken conversation in German: speech detection, wake phrase, speech-to-text, language model with retrieval and a safety check, text-to-speech, gestures | Running; measured parts listed on the page |
+| [Accents](accents.html) | Which words tell German regions apart, read from a public pronunciation atlas: the 24 cleanest maps and a set of twelve words | Reading only, nothing built |
 
 ## Research
 
