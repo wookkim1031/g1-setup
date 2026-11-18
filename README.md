@@ -7,6 +7,7 @@ not used them before.
 
 | Page | Status |
 |---|---|
+| [Simulation](https://wookkim1031.github.io/g1-setup/simulation.html): Isaac Lab, a check run, sharing one GPU, MuJoCo | Done |
 | [Basics](https://wookkim1031.github.io/g1-setup/basics.html): LiDAR, IMU, odometry, localisation, TF | Done |
 | [Navigation](https://wookkim1031.github.io/g1-setup/navigation.html): LiDAR, DLIO mapping, localisation, Nav2 | Mapping done; the rest in progress |
 | [Digital twin](https://wookkim1031.github.io/g1-setup/digital-twin.html): from the map to Isaac Lab and MuJoCo scenes, scanning a chair | Done |

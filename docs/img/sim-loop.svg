@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="900" height="300" fill="#ffffff"/>
+
+  <rect x="30" y="50" width="170" height="70" rx="8" fill="#fff" stroke="#555" stroke-width="1.5"/>
+  <text x="115" y="80" text-anchor="middle" font-weight="bold">Reference motion</text>
+  <text x="115" y="100" text-anchor="middle" font-size="12" fill="#555">"sit down", as joint angles</text>
+
+  <rect x="260" y="50" width="170" height="70" rx="8" fill="#eef4fb" stroke="#2a78d6" stroke-width="1.5"/>
+  <text x="345" y="80" text-anchor="middle" font-weight="bold">Policy</text>
+  <text x="345" y="100" text-anchor="middle" font-size="12" fill="#555">50 times per second</text>
+
+  <rect x="490" y="50" width="170" height="70" rx="8" fill="#fff" stroke="#555" stroke-width="1.5"/>
+  <text x="575" y="80" text-anchor="middle" font-weight="bold">Joint controller</text>
+  <text x="575" y="100" text-anchor="middle" font-size="12" fill="#555">target angle to motor force</text>
+
+  <rect x="720" y="50" width="150" height="70" rx="8" fill="#fdf1ea" stroke="#eb6834" stroke-width="1.5"/>
+  <text x="795" y="80" text-anchor="middle" font-weight="bold">Physics</text>
+  <text x="795" y="100" text-anchor="middle" font-size="12" fill="#555">200 steps per second</text>
+
+  <line x1="200" y1="85" x2="258" y2="85" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="430" y1="85" x2="488" y2="85" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="660" y1="85" x2="718" y2="85" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="459" y="74" text-anchor="middle" font-size="12" fill="#333">target</text>
+  <text x="459" y="110" text-anchor="middle" font-size="12" fill="#333">angles</text>
+  <text x="689" y="74" text-anchor="middle" font-size="12" fill="#333">forces</text>
+
+  <path d="M795 120 L795 210 L345 210 L345 122" fill="none" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="570" y="200" text-anchor="middle" font-size="13" fill="#333">what the robot feels: joint angles and speeds, turning rate, which way is down</text>
+
+  <text x="450" y="262" text-anchor="middle" font-size="13" fill="#555">One policy step = four physics steps. The policy never sees the simulator's inner state, only what a real robot could sense.</text>
+</svg>

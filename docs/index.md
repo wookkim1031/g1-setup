@@ -16,7 +16,7 @@ The pages describe setup and tools only. Experiment results are not part of them
 | [Navigation](navigation.html) | LiDAR, odometry and mapping with DLIO, localisation, Nav2, and the split between robot and server | Mapping done; localisation and Nav2 in progress |
 | [Localisation with AMCL](amcl.html) | How Nav2's localiser finds the robot on a stored map, the settings, and what does not carry over to our robot | Simulation only |
 | [A depth camera for the front](front-camera.html) | Adding the head's depth camera to Nav2's obstacle avoidance, because the LiDAR does not see straight ahead | Simulation only |
-| Simulation | Isaac Lab, the whole-body tracker and how a check run works | Planned |
+| [Simulation](simulation.html) | Isaac Lab on a GPU server: the control loop, a check run from start to finish, timing, sharing one graphics card, and MuJoCo as a second opinion | Done |
 | [Digital twin](digital-twin.html) | From a LiDAR map to a scene in Isaac Lab and MuJoCo, and scanning one chair | Done, with limits listed on the page |
 | Voice | Wake word, speech-to-text, language model and text-to-speech | Planned |
 
