@@ -277,7 +277,7 @@ localisation it cannot be told "go to the chair at position (12, 4)", because it
   needs a starting guess. This is what our tests used.
 * **Particle filter.** Keep hundreds of guesses ("particles") at once, let each predict what the
   LiDAR should see, and keep those that fit. It can recover from a poor start. This is the standard in
-  Nav2 for flat 2D LiDARs, under the name AMCL.
+  Nav2 for flat 2D LiDARs, under the name AMCL (see [Localisation with AMCL](amcl.html)).
 * **Place recognition.** Turn each scan into a compact fingerprint and look up which part of the map
   has a similar one. Used for the "no idea where I am" case.
 

@@ -1,0 +1,233 @@
+---
+layout: default
+title: Localisation with AMCL
+---
+
+[Back to all setups](index.html)
+
+# Localisation with AMCL: how the robot finds itself on a map
+
+This page explains **AMCL**, the localiser that comes with Nav2, and documents how we set it up for a
+**Unitree G1** in a simulated copy of our hall. It is written for someone who has never used it.
+
+Last updated: 18 November 2026.
+
+**Status: simulation only.** Nothing on this page has run on the real robot yet. One part of the set-up
+does not carry over to our robot as it is; see [The catch on our robot](#the-catch-on-our-robot).
+
+New to odometry, localisation or TF? Read the [basics page](basics.html) first.
+
+---
+
+## What is AMCL?
+
+AMCL answers one question: **where is the robot on a map it already has?**
+
+It does not build the map and it does not plan a path. It takes a stored map, the robot's laser scan and
+the robot's odometry, and gives back a position and a heading. The name stands for *Adaptive Monte
+Carlo Localization*. "Monte Carlo" means it works with many random guesses instead of one calculation.
+
+### The building blocks
+
+| Word | What it is | Here |
+|---|---|---|
+| **Map** | A floor plan as a grid of cells: occupied, free or unknown | 5 cm cells, made from a LiDAR walk through the hall |
+| **Scan** | One ring of distances around the robot, measured by the laser | 720 directions, 10 times a second |
+| **Odometry** | The robot's own estimate of how far it has moved. Smooth, but it drifts | From the LiDAR and motion sensor |
+| **Particle** | One guess of where the robot is: a position and a heading | 500 to 3,000 at a time |
+| **Weight** | How well a particle's guess fits the current scan | Recomputed with every update |
+| **Resampling** | Dropping particles with a low weight and copying those with a high one | After every update |
+| **Initial pose** | Where you tell AMCL the robot starts. The first particles are spread around it | A marked start spot |
+| **`map → odom`** | AMCL's answer in ROS: the correction that turns the drifting odometry into a position on the map | Published as a TF transform |
+
+---
+
+## How it works, step by step
+
+![The four steps of AMCL: many guesses, move them, score them with the scan, keep the good ones](img/amcl-steps.svg)
+
+1. **Start with many guesses.** AMCL places some hundred particles around the start pose you gave it.
+   Each one says "maybe the robot is here, facing this way".
+2. **Move the guesses with the robot.** When the odometry reports that the robot walked half a metre
+   forward and turned a little, every particle is moved the same way. A bit of randomness is added,
+   because odometry is never exact. This is what keeps some particles close to the truth even when the
+   odometry is a little wrong.
+3. **Score each guess with the scan.** For every particle AMCL asks: if the robot stood here, would the
+   walls on the map be at the distances the laser measures right now? A particle whose walls line up
+   gets a high weight. One where the laser "sees" a wall in the middle of free space gets a low one.
+4. **Keep the good guesses.** Particles with a low weight are dropped, those with a high weight are
+   copied. After a few rounds the cloud of particles sits tightly around the true position.
+
+The position AMCL reports is the middle of that cloud. It repeats steps 2 to 4 every time the robot has
+moved a set distance, here 10 cm or about 6°.
+
+"Adaptive" only means that AMCL uses fewer particles when the cloud is tight and more when it is wide,
+to save computing time.
+
+### What it hands to Nav2
+
+AMCL does not replace the odometry. It publishes the **correction** between the two:
+
+```
+map → odom          from AMCL, changes slowly, a few times a second
+odom → base_link    from the odometry, smooth, 50 times a second
+```
+
+Nav2 chains the two to get the robot's position on the map. If AMCL stops for a moment, the robot still
+has a smooth position from the odometry, only without new corrections.
+
+---
+
+## What AMCL needs
+
+| Input | Why | What goes wrong without it |
+|---|---|---|
+| A map that matches what the laser sees | Step 3 compares the scan with the map | The scan fits a wrong place better than the right one, and the position drifts off |
+| A scan | The only evidence about the real position | No corrections; the position is the odometry alone |
+| Odometry | Moves the particles between scans | Particles stay behind while the robot walks |
+| A rough start pose | The first particles have to be near the truth | AMCL settles on a wrong place and does not notice |
+
+---
+
+## Two ways to feed it
+
+The program is the same in both. The difference is **which scan** and **which map** it gets.
+
+| | Textbook | Slice above head height |
+|---|---|---|
+| Scan | The normal scan at body height, the same one Nav2 uses to avoid obstacles | One ring of distances at a height above people and furniture (2 m in our simulation) |
+| Map | The normal map | A second map of what exists at that height |
+| What the scan contains | Walls, columns, tables, chairs, people | Walls, columns and tall cabinets only |
+| Strong point | More detail to match, so a little more precise | Nothing at that height moves, so the scan always fits the map |
+| Weak point | Breaks when furniture is moved and the map is not updated | Needs a sensor that actually sees that height, and enough wall up there |
+
+Nav2 keeps using the normal body-height scan for avoiding obstacles in both cases. The slice is only for
+finding the position.
+
+### The two-map trick
+
+For the slice, AMCL needs its own map while the rest of Nav2 keeps the normal one. Run a second map
+server that publishes on another topic, and point AMCL at it:
+
+```python
+# launch file (Python), shortened
+Node(package="nav2_map_server", executable="map_server", name="map_server",
+     parameters=[{"yaml_filename": "hall_map.yaml"}]),                       # for the costmaps, topic /map
+Node(package="nav2_map_server", executable="map_server", name="map_server_high",
+     parameters=[{"yaml_filename": "hall_map_high.yaml",
+                  "topic_name": "map_amcl", "frame_id": "map"}]),            # for AMCL only
+Node(package="nav2_amcl", executable="amcl", name="amcl",
+     parameters=[{"scan_topic": "scan_high", "map_topic": "map_amcl", ...}]),
+Node(package="nav2_lifecycle_manager", executable="lifecycle_manager",
+     name="lifecycle_manager_localization",
+     parameters=[{"autostart": True, "node_names": ["map_server", "map_server_high", "amcl"]}]),
+```
+
+Both maps must use the same origin and cell size, so that a position means the same thing on both.
+
+---
+
+## The settings we used
+
+ROS 2 Humble, package `nav2_amcl`. Everything not listed is at its default.
+
+```yaml
+amcl:
+  ros__parameters:
+    use_sim_time: true                 # false on a real robot
+    global_frame_id: map
+    odom_frame_id: odom
+    base_frame_id: base_link
+    robot_model_type: "nav2_amcl::OmniMotionModel"   # the robot can also step sideways
+    alpha1: 0.2                        # how much the odometry is distrusted (alpha1 to alpha5)
+    alpha2: 0.2
+    alpha3: 0.2
+    alpha4: 0.2
+    alpha5: 0.2
+    laser_model_type: likelihood_field
+    laser_likelihood_max_dist: 2.0
+    laser_max_range: 15.0
+    max_beams: 120                     # of the 720 directions, 120 are used per update
+    min_particles: 500
+    max_particles: 3000
+    update_min_d: 0.10                 # update after 10 cm of walking ...
+    update_min_a: 0.10                 # ... or 0.1 rad (about 6 degrees) of turning
+    resample_interval: 1
+    z_hit: 0.5
+    z_rand: 0.5
+    sigma_hit: 0.2
+    transform_tolerance: 0.5
+    tf_broadcast: true                 # AMCL publishes map -> odom
+    scan_topic: scan_high              # "scan" for the textbook set-up
+    map_topic: map_amcl                # "map" for the textbook set-up
+    set_initial_pose: true             # start pose from the parameters below
+    initial_pose: {x: 0.0, y: 0.0, z: 0.0, yaw: 0.0}   # put the marked start spot here
+```
+
+Remove the static `map → odom` transform if your launch file had one for testing. AMCL publishes that
+transform now, and two publishers for the same transform make the position jump.
+
+---
+
+## What a simulation told us
+
+All of this is from a simulated hall with a **perfect** laser: no noise, no glass, no swaying head. Treat
+the numbers as a best case. The odometry was made to drift on purpose (3 % too far, 3 % too much turning,
+plus 0.1° per second), which is far worse than what our LiDAR odometry showed on a real walk.
+
+* **Without a localiser** the robot was several metres off after ten minutes and still reported its goals
+  as reached. Obstacle avoidance kept working, because that uses the live scan and not the position.
+* **Both set-ups** held the position in the unchanged hall, and also with people walking around: about
+  5 cm typically for the textbook set-up and about 10 cm for the slice, 25 cm at worst for both.
+* **With furniture that was not on the map**, the textbook set-up lost the position by several metres
+  within a minute and did not recover. The slice above head height stayed at about 10 cm.
+* **A wrong start pose** of about 1 m and 30° was corrected within half a minute of walking.
+* **10 to 20 cm of error is not nothing.** With a robot outline that leaves only a few centimetres of room,
+  the robot touched things it would have missed with an exact position. Leave more room than the outline
+  once the position comes from a localiser.
+
+---
+
+## The catch on our robot
+
+The slice above head height was tested with a laser ring that sits at 2 m and looks out level. **Our robot
+does not have that.**
+
+* The G1's LiDAR is in the head at about 1.3 m and is mounted **upside down**. Its wide side looks down
+  at the floor. Upwards it only reaches 7° above its own horizon.
+* At 7° a beam needs almost 6 m of distance to climb from 1.3 m to 2 m. So the robot only sees walls
+  at 2 m height when they are far away, and nothing at that height nearby.
+* On a real walk only about 15 % of the points were above head height (see the [basics page](basics.html)).
+  An earlier test with the real scan pattern found that keeping only the points above head height made
+  scan matching worse, not better.
+
+So the idea carries over, but not the recipe. The idea is: **match only against things that never
+move.** Ways to get there on this robot, none tested yet:
+
+| Way | How | Open question |
+|---|---|---|
+| A walls-only map with the full scan | Take the furniture out of the map and let the matcher ignore points that fit no wall | Whether enough wall is visible between the furniture at body height |
+| 3D scan matching | Match the whole 3D scan against the 3D map instead of a flat ring | Computing load on the robot's own computer |
+| A slice from far walls only | Use the few points above head height, which lie on distant walls | Whether 15 % of the points are enough, and what happens near a wall |
+| A second sensor that looks up | For example a camera or small laser on top of the head | Extra hardware and calibration |
+
+---
+
+## Gotchas
+
+| Problem | Cause | Fix |
+|---|---|---|
+| Position jumps back and forth | Two publishers of `map → odom` (AMCL and a leftover static transform) | Remove the static transform |
+| Nav2 waits forever at start-up | AMCL has no start pose, so it publishes no transform | `set_initial_pose: true` with a pose, or send one on `/initialpose` |
+| Position drifts off in a furnished room | The scan sees furniture that is not on the map | Update the map, or match only against fixed structure |
+| Position is fine but the robot still touches things | The outline leaves less room than the localiser's error | Add at least the worst error as margin |
+| AMCL never updates | The scan's topic name or frame does not match what AMCL expects | Check `scan_topic`, and that the scan's frame exists in TF |
+| The robot believes it reached a goal it did not reach | Goals are judged by the estimated position | When testing in simulation, check against the true position as well |
+| Works in one room, not in a long plain corridor | Along a plain wall every place looks the same to the scan | Keep corners or columns in view; this is a limit of the method |
+
+---
+
+## Further reading
+
+* Nav2's own description of the package and all parameters: [docs.nav2.org, AMCL](https://docs.nav2.org/rolling/configuration_and_development/configuration_guide/others/configuring_amcl/)
+* How other people localise robots indoors: the localisation part of the [research page](https://wookkim1031.github.io/robot-navigation-research/#localisation)

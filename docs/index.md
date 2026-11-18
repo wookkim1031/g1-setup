@@ -14,6 +14,7 @@ The pages describe setup and tools only. Experiment results are not part of them
 |---|---|---|
 | [Basics](basics.html) | **Start here.** LiDAR and its technologies, IMU, odometry, localisation and TF, explained from the sensor up | Done |
 | [Navigation](navigation.html) | LiDAR, odometry and mapping with DLIO, localisation, Nav2, and the split between robot and server | Mapping done; localisation and Nav2 in progress |
+| [Localisation with AMCL](amcl.html) | How Nav2's localiser finds the robot on a stored map, the settings, and what does not carry over to our robot | Simulation only |
 | Simulation | Isaac Lab, the whole-body tracker and how a check run works | Planned |
 | [Digital twin](digital-twin.html) | From a LiDAR map to a scene in Isaac Lab and MuJoCo, and scanning one chair | Done, with limits listed on the page |
 | Voice | Wake word, speech-to-text, language model and text-to-speech | Planned |

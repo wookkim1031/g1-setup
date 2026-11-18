@@ -207,7 +207,8 @@ robot needs to find its position on the **stored** map. The plan:
 * Give it a rough starting position, for example a marked start spot. The simulation above says the
   matcher needs to start within about 25 cm and 5° to be reliable.
 
-Open: which relocaliser, and how it behaves on the robot's own computer.
+Open: which relocaliser, and how it behaves on the robot's own computer. One candidate, Nav2's AMCL, is
+explained and tried in simulation on its own page: [Localisation with AMCL](amcl.html).
 
 ## 5. Splitting the work between robot and server (planned)
 
