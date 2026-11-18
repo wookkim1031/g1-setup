@@ -12,8 +12,9 @@ This page explains **AMCL**, the localiser that comes with Nav2, and documents h
 
 Last updated: 18 November 2026.
 
-**Status: simulation only.** Nothing on this page has run on the real robot yet. One part of the set-up
-does not carry over to our robot as it is; see [The catch on our robot](#the-catch-on-our-robot).
+**Status: simulation only.** Nothing on this page has run on the real robot yet. The first tests used a
+perfect laser; the later ones use the scan pattern of the robot's real LiDAR, which changes the answer.
+See [The catch on our robot](#the-catch-on-our-robot) and the section after it.
 
 New to odometry, localisation or TF? Read the [basics page](basics.html) first.
 
@@ -169,7 +170,7 @@ transform now, and two publishers for the same transform make the position jump.
 
 ---
 
-## What a simulation told us
+## What a simulation with a perfect laser told us
 
 All of this is from a simulated hall with a **perfect** laser: no noise, no glass, no swaying head. Treat
 the numbers as a best case. The odometry was made to drift on purpose (3 % too far, 3 % too much turning,
@@ -191,25 +192,72 @@ plus 0.1° per second), which is far worse than what our LiDAR odometry showed o
 ## The catch on our robot
 
 The slice above head height was tested with a laser ring that sits at 2 m and looks out level. **Our robot
-does not have that.**
+does not have that.** Measured from a recorded walk of the real robot:
 
-* The G1's LiDAR is in the head at about 1.3 m and is mounted **upside down**. Its wide side looks down
-  at the floor. Upwards it only reaches 7° above its own horizon.
-* At 7° a beam needs almost 6 m of distance to climb from 1.3 m to 2 m. So the robot only sees walls
-  at 2 m height when they are far away, and nothing at that height nearby.
-* On a real walk only about 15 % of the points were above head height (see the [basics page](basics.html)).
-  An earlier test with the real scan pattern found that keeping only the points above head height made
-  scan matching worse, not better.
+* The G1's LiDAR sits in the head, between 1.2 and 1.3 m above the floor, **upside down** and tilted about
+  10° nose-down. Its wide side looks at the floor.
+* Upwards it reaches about 6° above level towards the front and about 18° towards the back. So it sees
+  walls at 2 m height only from a few metres away, and mostly behind the robot.
+* **A gap straight ahead.** The recording holds no points within about 55° to either side of the walking
+  direction. Whether the head covers the sensor there or the driver cuts that sector out is not checked
+  yet. Either way, a flat scan made from this cloud is empty straight ahead.
 
-So the idea carries over, but not the recipe. The idea is: **match only against things that never
-move.** Ways to get there on this robot, none tested yet:
+![LiDAR points per scan by direction around the robot: none within 55° of straight ahead](img/lidar-directions.png)
 
-| Way | How | Open question |
-|---|---|---|
-| A walls-only map with the full scan | Take the furniture out of the map and let the matcher ignore points that fit no wall | Whether enough wall is visible between the furniture at body height |
-| 3D scan matching | Match the whole 3D scan against the 3D map instead of a flat ring | Computing load on the robot's own computer |
-| A slice from far walls only | Use the few points above head height, which lie on distant walls | Whether 15 % of the points are enough, and what happens near a wall |
-| A second sensor that looks up | For example a camera or small laser on top of the head | Extra hardware and calibration |
+So the recipe above does not carry over as it is. The idea does: **match only against things that never
+move.**
+
+---
+
+## The same tests with the robot's real scan pattern
+
+We then replaced the perfect laser with the real one. The simulator casts the laser directions of the
+real recording, scan after scan, from the real mounting, with 2 cm of range noise. Four ways to localise
+were compared: in the unchanged hall, with six people walking around, and twice with furniture that is
+not on the map. The odometry drifts as before.
+
+| Way | Unchanged hall | With people | Furniture not on the map |
+|---|---|---|---|
+| AMCL on a flat scan at body height (points from 0.1 to 1.5 m), normal map | 11 cm, worst 30 cm | 14 cm, worst 31 cm | **lost by about 4 m**, in both runs |
+| The same with beam skipping | 5 cm, worst 16 cm | 5 cm, worst 16 cm | **lost by 2 to 3 m**, in both runs |
+| AMCL on far walls only (points from 1.8 to 2.3 m, map of that height) | 19 cm, worst 36 cm | 19 cm, worst 44 cm | 23 cm, worst 46 cm |
+| 3D scan matching: the whole cloud against a 3D map (this is not AMCL) | under 1 cm | under 1 cm | under 1 cm, worst 6 cm |
+
+The numbers are the typical (median) and the worst position error over a tour of three to ten minutes.
+
+* **AMCL at body height is fine as long as the room matches the map.** People walking around did not
+  disturb it. Furniture that is not on the map did: the position was lost within a minute and never came
+  back.
+* **Beam skipping halves the error but does not save it.** With rows of unknown furniture too many
+  readings are wrong at once.
+* **The far-wall slice is the only AMCL set-up that survived moved furniture.** It is coarse, because
+  only a few points of each scan lie that high: plan for half a metre of error, not 10 cm.
+* **3D scan matching was far more precise in every case.** It compares the whole 3D scan with a 3D map,
+  so walls and columns outvote the furniture. Read its numbers as a best case: the 3D map
+  came from the simulator's own geometry, and the simulated head does not sway. It also only follows a
+  position it already has (it needs a start within a few tens of centimetres of the truth); it does not
+  search.
+
+A flat scan is cut from the 3D cloud by keeping the points in a height band and taking the closest one per
+direction. On a robot the `pointcloud_to_laserscan` package does this (`min_height`, `max_height`); in
+the simulation we cut the band ourselves.
+
+Beam skipping lets AMCL ignore beams that most particles disagree with. It is switched on like this; the
+three numbers are Nav2's defaults:
+
+```yaml
+amcl:
+  ros__parameters:
+    laser_model_type: likelihood_field_prob   # beam skipping only works with this model
+    do_beamskip: true
+    beam_skip_distance: 0.5          # largest distance (m) to consider skipping for; the default
+    beam_skip_threshold: 0.3         # "percentage of beams required to skip" in Nav2's words; the default
+    beam_skip_error_threshold: 0.9   # when this share of beams does not match the map, all beams are used again; the default
+```
+
+**Where this leaves us.** In a hall where furniture moves, AMCL on the normal scan is not safe. The
+far-wall slice is the AMCL set-up to start with on this robot, with wide margins. 3D scan matching is the
+stronger candidate and the next thing to try with real data.
 
 ---
 
