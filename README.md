@@ -7,6 +7,7 @@ not used them before.
 
 | Page | Status |
 |---|---|
+| [Voice](https://wookkim1031.github.io/g1-setup/voice.html): speech-to-text, language model, text-to-speech, gestures | Running |
 | [Simulation](https://wookkim1031.github.io/g1-setup/simulation.html): Isaac Lab, a check run, sharing one GPU, MuJoCo | Done |
 | [Basics](https://wookkim1031.github.io/g1-setup/basics.html): LiDAR, IMU, odometry, localisation, TF | Done |
 | [Navigation](https://wookkim1031.github.io/g1-setup/navigation.html): LiDAR, DLIO mapping, localisation, Nav2 | Mapping done; the rest in progress |

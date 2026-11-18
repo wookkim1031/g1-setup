@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" font-family="Helvetica, Arial, sans-serif" font-size="15">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="900" height="400" fill="#ffffff"/>
+
+  <!-- robot -->
+  <rect x="20" y="20" width="170" height="360" rx="10" fill="#f4f4f1" stroke="#898781" stroke-width="1.5"/>
+  <text x="105" y="48" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Robot</text>
+  <rect x="40" y="80" width="130" height="50" rx="6" fill="#fff" stroke="#555"/>
+  <text x="105" y="110" text-anchor="middle">Microphone</text>
+  <rect x="40" y="290" width="130" height="50" rx="6" fill="#fff" stroke="#555"/>
+  <text x="105" y="320" text-anchor="middle">Loudspeaker</text>
+  <rect x="40" y="185" width="130" height="50" rx="6" fill="#fff" stroke="#555"/>
+  <text x="105" y="207" text-anchor="middle">Arm gestures</text>
+  <text x="105" y="225" text-anchor="middle" font-size="12" fill="#555">wave, handshake</text>
+
+  <!-- client -->
+  <rect x="250" y="20" width="230" height="360" rx="10" fill="#eef4fb" stroke="#2a78d6" stroke-width="1.5"/>
+  <text x="365" y="48" text-anchor="middle" font-size="16" font-weight="bold" fill="#184f95">Client (small program)</text>
+  <rect x="275" y="80" width="180" height="50" rx="6" fill="#fff" stroke="#555"/>
+  <text x="365" y="102" text-anchor="middle">Speech detection</text>
+  <text x="365" y="120" text-anchor="middle" font-size="12" fill="#555">cuts out one utterance</text>
+  <rect x="275" y="185" width="180" height="50" rx="6" fill="#fff" stroke="#555"/>
+  <text x="365" y="207" text-anchor="middle">Dialogue logic</text>
+  <text x="365" y="225" text-anchor="middle" font-size="12" fill="#555">wake phrase, name, turns</text>
+  <rect x="275" y="290" width="180" height="50" rx="6" fill="#fff" stroke="#555"/>
+  <text x="365" y="312" text-anchor="middle">Playback</text>
+  <text x="365" y="330" text-anchor="middle" font-size="12" fill="#555">mic muted while speaking</text>
+
+  <!-- server -->
+  <rect x="540" y="20" width="340" height="360" rx="10" fill="#fdf1ea" stroke="#eb6834" stroke-width="1.5"/>
+  <text x="710" y="48" text-anchor="middle" font-size="16" font-weight="bold" fill="#9a3a12">Server with a graphics card</text>
+  <rect x="570" y="72" width="280" height="44" rx="6" fill="#fff" stroke="#555"/>
+  <text x="710" y="99" text-anchor="middle">1. Speech to text</text>
+  <rect x="570" y="128" width="280" height="44" rx="6" fill="#fff" stroke="#555"/>
+  <text x="710" y="155" text-anchor="middle">2. Safety check of the question</text>
+  <rect x="570" y="184" width="280" height="44" rx="6" fill="#fff" stroke="#555"/>
+  <text x="710" y="211" text-anchor="middle">3. Look up matching text passages</text>
+  <rect x="570" y="240" width="280" height="44" rx="6" fill="#fff" stroke="#555"/>
+  <text x="710" y="267" text-anchor="middle">4. Language model writes the answer</text>
+  <rect x="570" y="296" width="280" height="44" rx="6" fill="#fff" stroke="#555"/>
+  <text x="710" y="323" text-anchor="middle">5. Text to speech</text>
+
+  <line x1="170" y1="105" x2="273" y2="105" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="455" y1="97" x2="568" y2="94" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="512" y="84" text-anchor="middle" font-size="12" fill="#333">sound</text>
+  <line x1="568" y1="106" x2="457" y2="200" stroke="#333" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#a)"/>
+  <text x="498" y="140" text-anchor="middle" font-size="12" fill="#333">text</text>
+  <line x1="455" y1="216" x2="568" y2="150" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="568" y1="318" x2="457" y2="315" stroke="#333" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#a)"/>
+  <text x="512" y="336" text-anchor="middle" font-size="12" fill="#333">sound</text>
+  <line x1="273" y1="315" x2="172" y2="315" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="273" y1="210" x2="172" y2="210" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+</svg>

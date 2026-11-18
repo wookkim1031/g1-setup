@@ -18,7 +18,7 @@ The pages describe setup and tools only. Experiment results are not part of them
 | [A depth camera for the front](front-camera.html) | Adding the head's depth camera to Nav2's obstacle avoidance, because the LiDAR does not see straight ahead | Simulation only |
 | [Simulation](simulation.html) | Isaac Lab on a GPU server: the control loop, a check run from start to finish, timing, sharing one graphics card, and MuJoCo as a second opinion | Done |
 | [Digital twin](digital-twin.html) | From a LiDAR map to a scene in Isaac Lab and MuJoCo, and scanning one chair | Done, with limits listed on the page |
-| Voice | Wake word, speech-to-text, language model and text-to-speech | Planned |
+| [Voice](voice.html) | A spoken conversation in German: speech detection, wake phrase, speech-to-text, language model with retrieval and a safety check, text-to-speech, gestures | Running; measured parts listed on the page |
 
 ## Research
 
