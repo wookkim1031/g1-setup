@@ -274,7 +274,8 @@ something that never moves.
 ### Does a fresh map fix AMCL?
 
 We tested this in simulation. The robot walked a tour of seven goals through a rearranged hall, once with
-the old map from before the furniture moved and once with a fresh map. The fresh map came from a
+an old map that shows none of the furniture standing there now (the hall as it was scanned, with the
+movable furniture and low clutter taken out) and once with a fresh map. The fresh map came from a
 simulated mapping round with a LiDAR 0.40 m above the floor, as a robot dog would carry it. Each case ran
 twice, once with furniture as solid blocks and once as tops on thin legs.
 
@@ -315,8 +316,25 @@ Why the stored map should hold fixed structure only: Nav2 can add obstacles it s
 remove furniture that is drawn on the stored map and no longer there. An old furnished map leaves ghost
 tables in the planner, and goals on them are refused.
 
-Still open: the permanent map has to be made and tried against a real recording, and the forward camera
-has only been used for avoiding obstacles so far, not for making the map.
+### A first permanent map, and what making it taught us
+
+We made one from the scan: keep what reaches 1.8 m, drop the rest. That rule alone was wrong. It kept 22
+free-standing things in the middle of the hall. Photos from the robot's camera showed banner stands, a
+board, a crate, stools, and for several of them just empty floor: people who had stood near the robot
+during the scan. Somebody who knows the room has to look at what the map keeps. After removing all of
+them only the outer walls were left.
+
+On that walls-only map the simulated robot reached every goal in four walks (furnished hall with blocks,
+with tops on legs, with six people walking around, and the empty hall). The 3D scan matcher was typically
+right to about 1 cm, but with the furniture in the way it was off by 10 to 30 cm for short moments, where
+a map with all furniture on it stayed under 1 cm. So the walls-only map is good enough to arrive, and the
+margin around obstacles has to cover those moments.
+
+For the next recording: scan when nobody else is in the room, keep the camera fixed to the robot so each
+picture has a known place, and watch the map grow live so holes are seen during the walk.
+
+Still open: all of this is simulation. The walls-only map has to be tried against a real recording, and
+the forward camera has only been used for avoiding obstacles so far, not for making the map.
 
 ---
 
