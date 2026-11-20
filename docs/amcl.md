@@ -265,6 +265,61 @@ stronger candidate and the next thing to try with real data.
 
 ---
 
+## When the furniture moves: keeping the map current
+
+A hall that is rearranged for every event breaks the rule AMCL lives by: the room must match the map.
+There are two ways out. Either the map is made again after each rearrangement, or the robot localises on
+something that never moves.
+
+### Does a fresh map fix AMCL?
+
+We tested this in simulation. The robot walked a tour of seven goals through a rearranged hall, once with
+the old map from before the furniture moved and once with a fresh map. The fresh map came from a
+simulated mapping round with a LiDAR 0.40 m above the floor, as a robot dog would carry it. Each case ran
+twice, once with furniture as solid blocks and once as tops on thin legs.
+
+| Localiser | Old map: goals reached | Old map: position error | Fresh map: goals reached | Fresh map: position error |
+|---|---|---|---|---|
+| AMCL on a flat scan at body height | **0 of 14** | about 2 m, worst 3.3 m | 14 of 14 | 7 cm, worst 19 cm |
+| 3D scan matching | 13 of 14 | under 1 cm, worst 6 cm | 13 of 14 | under 1 cm, worst 2 cm |
+
+* **A fresh map fixes AMCL completely.** With the old map it is lost for about 90 % of the walk; with the
+  fresh one it is as good as in a hall that never changed.
+* **It does not matter much who makes the map.** A map from dog height worked for a robot that scans from
+  head height. A mapping walk with the humanoid itself gives the same kind of map and needs no second
+  robot.
+* **3D scan matching does not need the fresh map.** It matches against walls and columns up to 3 m high,
+  and those stay where they are. It missed one goal per map with the position still right to within 3 cm: once a
+  hand was caught on a thin column, the other miss we did not look into.
+
+Read this with care: one walk per case, simulation only, and the mapping round knew its own position
+exactly. A real mapping robot has to localise itself while it maps, and its errors end up in the map.
+
+### The plan we follow
+
+1. **One permanent map of what never moves.** Walls and columns only, taken from the mapping walks we
+   already have. As a 3D map for the scan matcher and as a 2D map for Nav2's planner.
+2. **Localise with 3D scan matching, from a marked start spot.** The matcher follows a position, it does
+   not search for one, so the robot starts every session from the same mark on the floor.
+3. **Furniture is never on the stored map.** The robot sees it live: the LiDAR all around, and a
+   [forward camera](front-camera.html) for the sector straight ahead that the LiDAR misses. Nav2 adds
+   what they see to its costmaps while walking.
+4. **Fallback: a short mapping walk before the event.** If the matcher does not hold up on the real
+   robot, the humanoid is steered once around the hall after the last table is placed, the recording is
+   turned into a new map, and plain AMCL runs on that. With the forward camera the walk covers the sector
+   ahead as well.
+5. **No second robot.** The mapping round with a dog works in simulation, but the humanoid can do the same
+   round itself.
+
+Why the stored map should hold fixed structure only: Nav2 can add obstacles it sees, but it does not
+remove furniture that is drawn on the stored map and no longer there. An old furnished map leaves ghost
+tables in the planner, and goals on them are refused.
+
+Still open: the permanent map has to be made and tried against a real recording, and the forward camera
+has only been used for avoiding obstacles so far, not for making the map.
+
+---
+
 ## Gotchas
 
 | Problem | Cause | Fix |

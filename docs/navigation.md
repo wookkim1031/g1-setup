@@ -210,6 +210,10 @@ robot needs to find its position on the **stored** map. The plan:
 Open: which relocaliser, and how it behaves on the robot's own computer. One candidate, Nav2's AMCL, is
 explained and tried in simulation on its own page: [Localisation with AMCL](amcl.html).
 
+What happens when the furniture is rearranged, and the plan for it (one permanent map of walls and
+columns, a marked start spot, a mapping walk only as fallback), is on the same page:
+[When the furniture moves](amcl.html#when-the-furniture-moves-keeping-the-map-current).
+
 ## 5. Splitting the work between robot and server (planned)
 
 Why not send everything to the server and compute there?
