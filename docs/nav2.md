@@ -11,7 +11,7 @@ This page explains **Nav2**, the navigation software of ROS 2, as a tool: which 
 how a goal travels through them, and how it decides what to do when something goes wrong. It is written
 for someone who has seen Nav2 run but could not say what each part does.
 
-Last updated: 21 November 2026.
+Last updated: 21 November 2026 (tuning sweep added).
 
 **Status: explanation, plus what we use in simulation.** Nothing on this page has run on the real robot.
 
@@ -130,6 +130,68 @@ the map on which areas are painted.
 
 Newer releases also have a **route server** that plans along a fixed network of routes instead of freely
 across the floor, the way people walk along corridors.
+
+---
+
+## Tuning: which settings matter
+
+Nav2 has hundreds of settings and no paper gives the right numbers for a walking humanoid. We tuned by **sweep**: the
+same test walk is repeated with one setting changed at a time, and the versions are compared.
+
+**The test.** A tour of seven goals through the furnished hall in simulation. The stored map shows walls only, so all
+furniture has to be seen by the sensors. Each version is walked three times with different sensor noise. Three numbers
+per walk: goals reached (checked against the robot's true position), seconds in which any part of the robot touched
+something, and the time for the tour.
+
+**The versions.** The starting point is the variant with the robot's real outline and the MPPI controller.
+
+| Setting | Values tried (starting value in the middle) |
+|---|---|
+| Safety margin around obstacles (`inflation_radius`) | 0.50 / 0.80 / 1.10 m |
+| How fast the cost falls off with distance (`cost_scaling_factor`) | 1.5 / 3.0 / 6.0 |
+| Planner's extra cost for paths near obstacles (`cost_travel_multiplier`) | 1.0 / 2.0 / 4.0 |
+| Controller's push away from obstacles (`repulsion_weight`) | 0.75 / 1.5 / 3.0 |
+| How far ahead the controller looks (`time_steps`) | 2.0 / 3.0 / 4.5 s |
+| How strictly it stays on the path (`PathAlignCritic` weight) | 7 / 14 / 28 |
+| Goal tolerance (`xy_goal_tolerance`) | 0.25 / 0.35 / 0.45 m |
+| Refresh rate of the local costmap | 5 / 10 per second |
+| The other variant | robot as a disc with Regulated Pure Pursuit |
+
+### What came out
+
+Two results were clear. Both were then repeated with six more walks for the first two rows.
+
+| Version | Walks | Goals reached | Contact per walk (median) | Tour time (median) |
+|---|---|---|---|---|
+| Safety margin 0.50 m | 9 | 63 of 63 | 7 s | 161 s |
+| Starting point, margin 0.80 m | 9 | 57 of 63 | 18 s | 209 s |
+| Safety margin 1.10 m | 3 | 18 of 21 | 19 s | 205 s |
+| Disc with Regulated Pure Pursuit | 3 | 14 of 21 | 0 s | 336 s |
+
+* **A smaller safety margin was better on every count.** One goal lies behind a narrow passage. With the 0.80 m margin
+  the robot gave up on it in five of nine walks; with 0.50 m it went through nine times out of nine. A wide margin did
+  not make the robot safer. It made narrow places look closed, and the robot hesitated and rubbed along things.
+* **The disc variant never touched anything and missed a third of the goals.** It treats the robot as a circle 64 cm
+  across, so it refuses passages that the real outline fits through. That is a real choice: never touch, or get
+  everywhere.
+
+Everything else was noise. The other twelve versions reached 17 to 20 of 21 goals, and the contact time of one and the
+same version jumped between under 1 s and almost 40 s from walk to walk. Three walks cannot rank them.
+
+### What we learned about sweeping
+
+* **Three walks are too few.** The same settings gave very different walks. Only differences that show in every walk
+  can be trusted; the main result needed nine walks to be believed.
+* **Look at which goal fails, not only how many.** Twenty of the 51 walks lost the same goal. That pointed straight at
+  the narrow passage and at the margin.
+* **Check the scoring rule against the setting.** With a goal tolerance of 0.45 m Nav2 reported every goal reached, but
+  our own check counts a goal only within 0.45 m of the true position, and the robot stopped at 0.46 to 0.53 m. That
+  version looked bad because of the rule, not because of the navigation.
+* **Contacts were fingers and wrists.** The outline in the settings is the body with the arms held still. The hands
+  reach a little further.
+
+Read all of this as simulation with one walking controller. Speeds, braking, the slowest walking speed and the goal
+tolerance depend on how the real robot walks and have to be measured on it.
 
 ---
 
