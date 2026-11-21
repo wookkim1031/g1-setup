@@ -140,7 +140,7 @@ The simulated robot runs Nav2 from the ROS 2 release Humble with these choices:
 | Slot | Our choice | Why |
 |---|---|---|
 | Planner | Smac 2D | A plain grid search is enough in an open hall. |
-| Controller | Regulated Pure Pursuit | Smooth, slows down near obstacles, few settings. |
+| Controller | Two variants: Regulated Pure Pursuit with the robot as a disc, and MPPI with the robot's real rectangular outline | Pure Pursuit is smooth and has few settings. MPPI can also step sideways, which lets the robot pass gaps narrower than its shoulders are wide. |
 | Smoother | Simple smoother | Takes the corners off the grid path. |
 | Behaviors | Spin, back up, drive on heading, wait | The standard set. |
 | Global costmap | Stored map, live obstacles, safety margin | |
