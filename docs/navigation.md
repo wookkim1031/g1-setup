@@ -242,6 +242,9 @@ Practical points we plan to follow, to be confirmed by measurement:
 
 ## 6. Nav2 on the server (planned)
 
+What Nav2 consists of and how a goal flows through it is explained on its own page:
+[Nav2, part by part](nav2.html).
+
 Nav2 will get the stored map, the robot's position and the thinned live cloud, and produce velocity
 commands toward a goal. Things that are different for a walking humanoid and need tuning:
 

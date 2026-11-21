@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 330" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="880" height="330" fill="#ffffff"/>
+  <g stroke="#57606a" stroke-width="1.6" fill="none">
+    <path d="M440 56 V76 M230 76 H690 M230 76 V96 M690 76 V96"/>
+    <path d="M230 148 V168 M120 168 H340 M120 168 V188 M340 168 V188"/>
+    <path d="M120 240 V262 M340 240 V262"/>
+    <path d="M690 148 V188"/>
+  </g>
+  <g stroke="#24292f" stroke-width="1.2">
+    <rect x="330" y="8" width="220" height="48" rx="6" fill="#e8e4f7"/>
+    <rect x="120" y="100" width="220" height="48" rx="6" fill="#d9f0ee"/>
+    <rect x="580" y="100" width="220" height="48" rx="6" fill="#fde2e0"/>
+    <rect x="20" y="192" width="200" height="48" rx="6" fill="#f6f8fa"/>
+    <rect x="240" y="192" width="200" height="48" rx="6" fill="#f6f8fa"/>
+    <rect x="20" y="266" width="200" height="48" rx="6" fill="#fde2e0"/>
+    <rect x="240" y="266" width="200" height="48" rx="6" fill="#fde2e0"/>
+    <rect x="580" y="192" width="220" height="64" rx="6" fill="#f6f8fa"/>
+  </g>
+  <g text-anchor="middle" fill="#24292f">
+    <text x="440" y="28" font-weight="bold">Navigate, with recovery</text><text x="440" y="46" fill="#57606a">try the left side, up to 6 retries</text>
+    <text x="230" y="120" font-weight="bold">Navigate with replanning</text><text x="230" y="138" fill="#57606a">both steps keep running together</text>
+    <text x="690" y="120" font-weight="bold">Recovery actions</text><text x="690" y="138" fill="#57606a">only when the left side failed</text>
+    <text x="120" y="212" font-weight="bold">Compute a path</text><text x="120" y="230" fill="#57606a">again once every second</text>
+    <text x="340" y="212" font-weight="bold">Follow the path</text><text x="340" y="230" fill="#57606a">send speed commands</text>
+    <text x="120" y="286" font-weight="bold">If planning fails</text><text x="120" y="304" fill="#57606a">clear the global costmap, retry</text>
+    <text x="340" y="286" font-weight="bold">If following fails</text><text x="340" y="304" fill="#57606a">clear the local costmap, retry</text>
+    <text x="690" y="212" font-weight="bold">One after the other</text><text x="690" y="230" fill="#57606a">clear both costmaps, spin,</text><text x="690" y="246" fill="#57606a">wait, back up</text>
+  </g>
+</svg>

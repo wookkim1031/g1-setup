@@ -14,6 +14,7 @@ The pages describe setup and tools only. Experiment results are not part of them
 |---|---|---|
 | [Basics](basics.html) | **Start here.** LiDAR and its technologies, IMU, odometry, localisation and TF, explained from the sensor up | Done |
 | [Navigation](navigation.html) | LiDAR, odometry and mapping with DLIO, localisation, Nav2, and the split between robot and server | Mapping done; localisation and Nav2 in progress |
+| [Nav2, part by part](nav2.html) | What Nav2 consists of, how a goal flows through it, how its behaviour tree decides, and which parts we use | Explanation; simulation only |
 | [Localisation with AMCL](amcl.html) | How Nav2's localiser finds the robot on a stored map, the settings, and what does not carry over to our robot | Simulation only |
 | [A depth camera for the front](front-camera.html) | Adding the head's depth camera to Nav2's obstacle avoidance, because the LiDAR does not see straight ahead | Simulation only |
 | [Simulation](simulation.html) | Isaac Lab on a GPU server: the control loop, a check run from start to finish, timing, sharing one graphics card, and MuJoCo as a second opinion | Done |
